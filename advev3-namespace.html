@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.3.min.js"></script>
+</head>
+<body>
+<div id="work" class="clickable">
+    <h5 class="clickable">work</h5>
+    <input type="button" class="clickable" value="click">
+    <p class="clickable"><span class="clickable">clickable</span></p>
+</div>
+<div id="message"></div>
+</body>
+<script>
+    $(function() {
+        var showevent = function (options) {
+            options = $.extend({
+                eventType: 'click',
+                eventTarget: this
+            }, options)
+            var message = options.eventType + ': ' + (options.eventTarget.nodeName || 'unknown') + options.eventTarget.nodeType;
+            $('#message').append(message);
+        };
+
+//we can remove handler by calling .off(click.ns) , or .off(.ns) to remove all events with the namespace specified
+        $('.clickable').on('click.ns dblclick.ns mousedown.ns', function (e) {
+
+            if (!e.preventDefault() && !e.stopPropagation() && !e.stopImmediatePropagation()) {
+                showevent.call(this,{eventType:'namehandler '+ e.type});
+                e.stopPropagation();
+                if(e.type ==='mousedown'){   //not e.eventType
+                    e.preventDefault();
+                }
+            }
+
+        }).on('mousedown', function (e) {
+            if (!e.preventDefault() && !e.stopPropagation() && !e.stopImmediatePropagation()) {
+                showevent.call(this, {eventType: 'mosedown'});
+            }
+
+        })
+    })
+</script>
+
+</html>

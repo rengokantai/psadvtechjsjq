@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.3.min.js"></script>
+</head>
+<body>
+<div id="work" class="clickable">
+    <h5 class="clickable">work</h5>
+    <input type="button" class="clickable" value="click">
+    <p class="clickable"><span class="clickable">clickable</span></p>
+</div>
+<div id="message"></div>
+</body>
+<script>
+    $(function() {
+        var showevent = function (options) {
+            options = $.extend({
+                eventType: 'click',
+                eventTarget: this
+            }, options)
+            var message = options.eventType + ': ' + (options.eventTarget.nodeName || 'unknown') + options.eventTarget.nodeType;
+            $('#message').append(message+"<br/>");
+        };
+        //first element get 3 click will trigger alert event. include propagated
+        $('.clickable').on('click', function (e) {
+          var $this = $(this);
+            count = ($this.data('count')||0)+1;
+            $this.data('count',count);
+                showevent.call(this,{eventType:''+count+''+ e.type});
+
+            if(count===3){
+                $this.trigger('click3')
+            }
+
+        }).on('click3',function(e){
+            e.stopPropagation();
+            showevent.call(this,{eventType: e.type});
+            alert('stop')
+        })
+    })
+</script>
+
+</html>
