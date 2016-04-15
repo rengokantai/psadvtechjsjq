@@ -7,3 +7,10 @@
 #####events
 ######propagation
 events bubble up the dom until handled
+
+
+#####using jQuery Deferred Obj
+######common pattern
+christmas tree effect, many indentation
+######Deferred object
+get use deferred, load does not

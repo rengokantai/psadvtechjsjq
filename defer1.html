@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.3.min.js"></script>
+    <style>
+        div[id^=s]{
+            display: inline-block;
+            padding:10px;
+            width:100px;
+            height:100px;
+            background-color: red;
+            overflow-y: hidden;
+        }
+    </style>
+</head>
+<body>
+<input type="button" id="load" value="load">
+
+<div id="s1"></div>
+<div id="s2"></div>
+<div id="s3"></div>
+<input type="button" disabled="true" value="proceed" id="proceed">
+<div id="message"></div>
+</body>
+<script>
+    $(function(){
+        $('#load').click(function(){
+            $('#s1').load('c1.html',function(){
+                $('#s2').load('c2.html',function() {
+                    $('#proceed').removeAttr('disabled'); //christmas three effect
+                });
+            });
+        })
+    });
+</script>
+</html>
