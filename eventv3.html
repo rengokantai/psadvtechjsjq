@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.3.min.js"></script>
+</head>
+<body>
+<div id="work" class="clickable">
+    <h5 class="clickable">work</h5>
+    <input type="button" class="clickable" value="click">
+    <p class="clickable"><span class="clickable">clickable</span></p>
+</div>
+<div id="message"></div>
+</body>
+<script>
+    $(function() {
+        var showevent = function (options) {
+            options = $.extend({
+                eventType: 'click',
+                eventTarget: this
+            }, options)
+            var message = options.eventType + ': ' + (options.eventTarget.nodeName || 'unknown') + options.eventTarget.nodeType;
+            $('#message').append(message);
+        };
+
+        $('.clickable').click(function (e) {
+            showevent.call(this);
+        }).dblclick(function (e) {
+            showevent.call(this, {eventType: 'dblclick'});
+        }).mousedown(function (e) {
+            showevent.call(this, {eventType: 'mosedown'});
+            //false;   //If not return false, then return mosedown: INPUT1mosedown: DIV1click: INPUT1click: DIV1  (return false means stop progagation)
+            //e.preventDefault() this prevents user select texts
+            //e.stopPropagation(); //this will still call subsequent methods
+            e.stopImmediatePropagation(); //only this works, stop future same event
+        }).mousedown(function (e) {
+            showevent.call(this, {eventType: 'mosedown2'});
+        })
+    })
+</script>
+
+</html>

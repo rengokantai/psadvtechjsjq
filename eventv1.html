@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.3.min.js"></script>
+</head>
+<body>
+<div id="work">
+    <input type="button" class="clickable" value="click">
+</div>
+<div id="message"></div>
+</body>
+<script>
+    $(function(){
+        var showevent = function(options){
+            options = $.extend({
+                eventType:'click',
+                eventTarget:this
+            },options)
+            var message = options.eventType+': '+(options.eventTarget.nodeName||'unknown')+options.eventTarget.nodeType;
+            $('#message').append(message);
+        };
+
+        $('.clickable').click(function(){
+            //showevent.call(this); //ok
+            //showevent(); incorrect
+            showevent({eventTarget:this}) //ok
+            showevent.call(this,{suffix:'2<br/>'}); //ok
+        })
+    })
+</script>
+</html>
