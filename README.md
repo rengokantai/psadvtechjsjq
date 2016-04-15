@@ -30,3 +30,9 @@ We can even add a handler based on the result of the get.
 ######Deferred methods
 defer4-promise.html observe the results
 
+######Dynamic pages
+######creating deferred proj
+The when method return a deferred object.as soon as any of the loadSec return a deferred that is rejected, the enclosing object used by the when method is also rejected,
+the satte cannot change again
+######using
+when we reject our deferred object, that immediately rejects the deferred object used by the when block

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.3.min.js"></script>
+    <style>
+        div[id^=s] {
+            display: inline-block;
+            padding: 10px;
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            overflow-y: hidden;
+        }
+    </style>
+</head>
+<body>
+<input type="button" id="load" value="load">
+
+<div id="s1"></div>
+<div id="s2"></div>
+<div id="s3"></div>
+<input type="button" disabled="true" value="proceed" id="proceed">
+
+<div id="message"></div>
+</body>
+<script>
+    $(function () {
+
+        var showmes = function (options) {
+            if (typeof  options !== 'object') {
+                options = {message: 'x', error: true};
+                options.message = options.message || 'no';
+                options.error = options.error || false;
+
+                $('#message').append(options.message);
+            }
+        }
+                , loadSect = function (options) {
+
+            var defer = $.Deferred(),
+                    $div, msg;
+            if (typeof  options !== 'object') {
+                msg = "wrong";
+                showmes({message: msg, error: true});
+                return defer.reject({statusText: msg});
+            }
+            options.selector = options.selector || '';
+            options.url = options.url || '';
+            options.dynamic = options.dynamic || false;
+            if (options.url === '') {
+                msg = "url";
+                showmes({message: msg, error: true});
+                return defer.reject({statusText: msg});
+            }
+            $div = $(options.selector)
+            if ($div.length > 0) {
+                $.get(options.url, function () {
+
+                }, 'html').done(function (res) {
+                    $div.html(res);
+                    if (!options.dynamic) {
+                        defer.resolve();
+                    }
+                }).fail(function (res) {
+                    msg = "url" + options.url;
+                    showmes({message: msg, error: true});
+                    return defer.reject(res);
+                });
+                if (options.dynamic) {
+                    $div.off('complete,failure').on('complete', function (e) {
+                        defer.resolve();
+                    }).on('failure', function (r, res) {
+                        msg = "error dynamic";
+                        showmes({message: msg, error: true});
+                        return defer.reject(res);
+                    })
+                }
+            } else {
+                defer.reject({statusText: 'selector!!'});
+            }
+            return defer.promise()
+        }
+        $('#load').click(function () {
+            $.when(
+                    showmes({message: 'start'}),
+                    loadSect({selector: '#s1', url: 'c1trigger.html', dynamic: true}),
+                    loadSect({selector: '#s2', url: 'c2.html'}),
+                    showmes({message: 'done'})
+            ).promise().done(function () {
+                $('#message').append('2<br/>');
+            }).fail(function (res) {
+                alert(res.statusText);   //just add a promise().done() to replace then()
+            }).always(function () {
+                //always run
+                $('#proceed').removeAttr('disabled');
+            })
+        })
+    });
+</script>
+</html>
