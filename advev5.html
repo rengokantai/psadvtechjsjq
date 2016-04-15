@@ -36,7 +36,7 @@
                         $(notObject).trigger('loaded',intObject);   //intObject->notObject
                     }
                 }
-        $('.clickable').on('click', function (e) {
+        $('.clickable').on('click', intObject, function (e) {   // pass to line 50 e.data
             var $this = $(this);
             count = ($this.data('count')||0)+1;
             $this.data('count',count);
@@ -47,6 +47,8 @@
             }
 
             if($this.attr('type')==='button'){
+                var theObj = e.data || {records:[]};
+                $('#message').append(theObj.records.length+'<br/>')
                 loadRecord();
             }
 
