@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="the" style="background: red;"></canvas>
+
+</body>
+<script>
+    //using default parameters
+    G={
+        draw:function(options){
+            var canvas = document.getElementById('the');
+            if(canvas.getContext){
+                var context = canvas.getContext('2d');
+                if(typeof options.height==='undefined'){
+                    options.height = 50;
+                }
+                if(typeof options.width==='undefined'){
+                    options.width = 80;
+                }
+                if(typeof options.top==='undefined'){
+                    options.top = 10;
+                }
+                if(typeof options.left==='undefined'){
+                    options.left = 60;
+                }
+
+                if(typeof options.stroke==='undefined'){
+                    options.stroke = 'black';
+                }
+                if(typeof options.fill==='undefined'){
+                    options.fill = 'silver';
+                }
+                context.strokeStyle=options.stroke;
+                context.fillStyle = options.fill;
+                context.fillRect(options.left,options.top,options.width,options.height);
+                context.strokeRect(options.left,options.top,options.width,options.height);
+            }
+        }
+    }
+    //G.draw(100,100,100,100,'black');
+    G.draw({width:100,height:100,left:100,top:100,fill:'silver',stroke:undefined});
+</script>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="the" style="background: red;"></canvas>
+
+</body>
+<script>
+    //add a check to judge whether the param is an object
+    G={
+        draw:function(left,top,width,height,stroke,fill){
+            var canvas = document.getElementById('the');
+            if(canvas.getContext){
+                var context = canvas.getContext('2d');
+                if(typeof left!=='undefined'){
+                    if(typeof left==='object')
+                        options=left;   //passing an object with curly braces
+                    else
+                        options={       //legacy code
+                            left:left,
+                            top:top,
+                            width:width,
+                            height:height,
+                            stroke:stroke,
+                            fill:fill
+                        }
+                }
+
+                if(options.clear){
+                    canvas.width = canvas.width;
+                }
+                options.left = options.left || G.Options.left;
+                options.top = options.top || G.Options.top;
+                options.height = options.height || G.Options.height;
+                options.width = options.width || G.Options.width;
+                options.stroke = options.stroke || G.Options.stroke;
+                options.fill = options.fill || G.Options.fill;
+
+                context.strokeStyle=options.stroke;
+                context.fillStyle = options.fill;
+                context.fillRect(options.left,options.top,options.width,options.height);
+                context.strokeRect(options.left,options.top,options.width,options.height);
+            }
+        },
+        Options:{
+            left:10,top:20,height:30,width:40,fill:'silver',stroke:'black',clear:false
+        }
+    }
+
+    //legacy call
+    G.draw(10,10,undefined,100,'black');
+    //new call
+    //G.draw({width:100,left:100,top:100,fill:'silver',stroke:undefined});
+    G.draw(100,100)
+    G.draw({clear:true});
+</script>
+</html>
