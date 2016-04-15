@@ -13,4 +13,6 @@ events bubble up the dom until handled
 ######common pattern
 christmas tree effect, many indentation
 ######Deferred object
-get use deferred, load does not
+get use deferred, load does not.
+######Negative testing.
+using then(succ,fail) function, if fail multiple times, only return one error

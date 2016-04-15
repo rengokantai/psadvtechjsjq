@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.2.3.min.js"></script>
+    <style>
+        div[id^=s] {
+            display: inline-block;
+            padding: 10px;
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            overflow-y: hidden;
+        }
+    </style>
+</head>
+<body>
+<input type="button" id="load" value="load">
+
+<div id="s1"></div>
+<div id="s2"></div>
+<div id="s3"></div>
+<input type="button" disabled="true" value="proceed" id="proceed">
+
+<div id="message"></div>
+</body>
+<script>
+    $(function () {
+        var loadSect = function (options) {
+            if (typeof  options !== 'object') {
+                options = {};
+            }
+            options.selector = options.selector || '';
+            options.url = options.url || '';
+            return $.get(options.url, function (res) {
+                $(options.selector).html(res);
+            }, 'html');
+        }
+        $('#load').click(function () {
+            $.when(
+                  loadSect({selector:'#s1',url:'c11.html'}),
+                  loadSect({selector:'#s2',url:'c2.html'})
+            ).then(function () {
+                $('#proceed').removeAttr('disabled');
+            },function(res){
+                alert(res.statusText);   //same as .then(success).fail(failure)
+            })
+        })
+    });
+</script>
+</html>
