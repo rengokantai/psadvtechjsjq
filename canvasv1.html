@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="the" style="background: red;"></canvas>
+
+</body>
+<script>
+    G={
+        draw:function(){
+            var canvas = document.getElementById('the');
+            if(canvas.getContext){
+                var context = canvas.getContext('2d');
+                context.strokeStyle='black';
+                context.fillStyle = 'silver';
+                context.fillRect(10,10,100,100);
+                context.strokeRect(10,10,100,100);
+            }
+        }
+    }
+    G.draw();
+</script>
+</html>
